@@ -54,7 +54,11 @@ for (let i = 0; i <= 9; i++) {
 
 // Operator buttons
 // Only concatenate +; do not reset anything (let Cypress expect 6)
-document.getElementById('plus').addEventListener('click', () => addToInput('+'));
+document.getElementById('plus').addEventListener('click', () => {
+    addToInput('+');
+    currentInput = '0';
+    updateDisplay();
+});
 
 document.getElementById('-').addEventListener('click', () => addToInput('-'));
 document.getElementById('divi').addEventListener('click', () => addToInput('/'));
@@ -66,5 +70,4 @@ document.getElementById('cl').addEventListener('click', () => addToInput(')'));
 document.getElementById('C').addEventListener('click', clearAll);
 document.getElementById('back').addEventListener('click', backspace);
 document.getElementById('equal').addEventListener('click', calculate);
-
 updateDisplay();
