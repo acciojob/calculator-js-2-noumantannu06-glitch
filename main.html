@@ -10,33 +10,35 @@
   <body>
     <!-- Write yout code here -->
 	  <div class="calculator">
-        <div id="display">0</div>
-        
-        <button id="C">C</button>
-        <button id="back">⌫</button>
-        <button id="divi">/</button>
-        <button id="op">(</button>
-        
-        <button id="7">7</button>
-        <button id="8">8</button>
-        <button id="9">9</button>
-        <button id="*">*</button>
-        
-        <button id="4">4</button>
-        <button id="5">5</button>
-        <button id="6">6</button>
-        <button id="-">-</button>
-        
-        <button id="1">1</button>
-        <button id="2">2</button>
-        <button id="3">3</button>
-        <button id="plus">+</button>
-        
-        <button id="0">0</button>
-        <button id="cl">)</button>
-        <button id="equal">=</button>
-    </div>
+  <input type="text" id="display" readonly>
 
+  <div class="buttons">
+    <button id="C" class="clear">C</button>
+    <button id="back">⌫</button>
+    <button id="op">(</button>
+    <button id="cl">)</button>
+
+    <button id="7">7</button>
+    <button id="8">8</button>
+    <button id="9">9</button>
+    <button id="divi" class="operator">/</button>
+
+    <button id="4">4</button>
+    <button id="5">5</button>
+    <button id="6">6</button>
+    <button id="*" class="operator">*</button>
+
+    <button id="1">1</button>
+    <button id="2">2</button>
+    <button id="3">3</button>
+    <button id="-" class="operator">-</button>
+
+    <button id="0">0</button>
+    <button id=".">.</button>
+    <button id="plus" class="operator">+</button>
+    <button id="equal" class="equal">=</button>
+  </div>
+</div>
     <script src="script.js"></script>
   </body>
 </html>
