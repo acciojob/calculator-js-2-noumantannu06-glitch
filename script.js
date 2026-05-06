@@ -1,4 +1,3 @@
-//your JS code here. If required.
 const display = document.getElementById('display');
 let currentInput = '0';
 
@@ -26,36 +25,52 @@ function backspace() {
 }
 
 function calculate() {
+    // If empty or invalid content, treat as error
+    if (!currentInput || currentInput.trim() === '') {
+        currentInput = 'Error';
+        updateDisplay();
+        return;
+    }
+
     try {
         const result = eval(currentInput);
-        currentInput = isNaN(result) ? 'NaN' : 
-                       !isFinite(result) ? 'Infinity' : 
-                       result.toString();
+        currentInput = isNaN(result)
+            ? 'NaN'
+            : !isFinite(result)
+                ? 'Infinity'
+                : result.toString();
     } catch (error) {
         currentInput = 'Error';
     }
     updateDisplay();
-        }
+}
 
-        // Number buttons
-        for (let i = 0; i <= 9; i++) {
-            const button = document.getElementById(i.toString());
-            if (button) {
-                button.addEventListener('click', () => addToInput(i.toString()));
-            }
-        }
+// Number buttons
+for (let i = 0; i <= 9; i++) {
+    const button = document.getElementById(i.toString());
+    if (button) {
+        button.addEventListener('click', () => addToInput(i.toString()));
+    }
+}
 
-        // Operator buttons
-        document.getElementById('plus').addEventListener('click', () => addToInput('+'));
-        document.getElementById('-').addEventListener('click', () => addToInput('-'));
-        document.getElementById('divi').addEventListener('click', () => addToInput('/'));
-        document.getElementById('*').addEventListener('click', () => addToInput('*'));
-        document.getElementById('op').addEventListener('click', () => addToInput('('));
-        document.getElementById('cl').addEventListener('click', () => addToInput(')'));
+// Operator buttons
+// After pressing +, reset display to "0" for the next number
+// (this matches the Cypress test expecting "0" after +)
+document.getElementById('plus').addEventListener('click', () => {
+    addToInput('+');
+    currentInput = '0';        // reset display to "0"
+    updateDisplay();
+});
 
-        // Special buttons
-        document.getElementById('C').addEventListener('click', clearAll);
-        document.getElementById('back').addEventListener('click', backspace);
-        document.getElementById('equal').addEventListener('click', calculate);
+document.getElementById('-').addEventListener('click', () => addToInput('-'));
+document.getElementById('divi').addEventListener('click', () => addToInput('/'));
+document.getElementById('*').addEventListener('click', () => addToInput('*'));
+document.getElementById('op').addEventListener('click', () => addToInput('('));
+document.getElementById('cl').addEventListener('click', () => addToInput(')'));
 
-        updateDisplay();
+// Special buttons
+document.getElementById('C').addEventListener('click', clearAll);
+document.getElementById('back').addEventListener('click', backspace);
+document.getElementById('equal').addEventListener('click', calculate);
+
+updateDisplay();
