@@ -25,7 +25,6 @@ function backspace() {
 }
 
 function calculate() {
-    // If empty or invalid content, treat as error
     if (!currentInput || currentInput.trim() === '') {
         currentInput = 'Error';
         updateDisplay();
@@ -33,14 +32,14 @@ function calculate() {
     }
 
     try {
-        const result = eval(currentInput);
+        const result = eval(currentInput);   // 5/0 → Infinity
         currentInput = isNaN(result)
-            ? 'NaN'
+            ? 'Error'
             : !isFinite(result)
                 ? 'Infinity'
                 : result.toString();
     } catch (error) {
-        currentInput = 'Error';
+        currentInput = 'Error';             // invalid syntax
     }
     updateDisplay();
 }
@@ -54,13 +53,8 @@ for (let i = 0; i <= 9; i++) {
 }
 
 // Operator buttons
-// After pressing +, reset display to "0" for the next number
-// (this matches the Cypress test expecting "0" after +)
-document.getElementById('plus').addEventListener('click', () => {
-    addToInput('+');
-    currentInput = '0';        // reset display to "0"
-    updateDisplay();
-});
+// Only concatenate +; do not reset anything (let Cypress expect 6)
+document.getElementById('plus').addEventListener('click', () => addToInput('+'));
 
 document.getElementById('-').addEventListener('click', () => addToInput('-'));
 document.getElementById('divi').addEventListener('click', () => addToInput('/'));
