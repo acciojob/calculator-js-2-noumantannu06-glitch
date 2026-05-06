@@ -1,41 +1,40 @@
 //your JS code here. If required.
- const display = document.getElementById('display');
-        let currentInput = '0';
+const display = document.getElementById('display');
+let currentInput = '0';
 
-        function updateDisplay() {
-            display.textContent = currentInput;
-        }
+function updateDisplay() {
+    display.textContent = currentInput;
+}
 
-        function addToInput(value) {
-            if (currentInput === '0' && value !== '.') {
-                currentInput = value;
-            } else {
-                currentInput += value;
-            }
-            updateDisplay();
-        }
+function addToInput(value) {
+    if (currentInput === '0' && !['+', '-', '/', '*', '(', ')'].includes(value)) {
+        currentInput = value;
+    } else {
+        currentInput += value;
+    }
+    updateDisplay();
+}
 
-        function clearAll() {
-            currentInput = '0';
-            updateDisplay();
-        }
+function clearAll() {
+    currentInput = '0';
+    updateDisplay();
+}
 
-        function backspace() {
-            currentInput = currentInput.slice(0, -1) || '0';
-            updateDisplay();
-        }
+function backspace() {
+    currentInput = currentInput.slice(0, -1) || '0';
+    updateDisplay();
+}
 
-        function calculate() {
-            try {
-                // Replace operator ids with actual symbols if needed, but here they match
-                currentInput = eval(currentInput).toString();
-                if (!currentInput || isNaN(currentInput)) {
-                    currentInput = 'Error';
-                }
-            } catch (error) {
-                currentInput = 'Error';
-            }
-            updateDisplay();
+function calculate() {
+    try {
+        const result = eval(currentInput);
+        currentInput = isNaN(result) ? 'NaN' : 
+                       !isFinite(result) ? 'Infinity' : 
+                       result.toString();
+    } catch (error) {
+        currentInput = 'Error';
+    }
+    updateDisplay();
         }
 
         // Number buttons
