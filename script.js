@@ -1,39 +1,71 @@
-  const display = document.getElementById("display");
+const display = document.getElementById('display');
+let currentInput = '0';
 
-  // Append value to display
-  function append(value) {
-    display.value += value;
-  }
+function updateDisplay() {
+    display.value = currentInput;   // ✅ FIXED
+}
 
-  // Clear all
-  document.getElementById("C").onclick = () => {
-    display.value = "";
-  };
-
-  // Backspace
-  document.getElementById("back").onclick = () => {
-    display.value = display.value.slice(0, -1);
-  };
-
-  // Equals
-  document.getElementById("equal").onclick = () => {
-    try {
-      display.value = eval(display.value);
-    } catch {
-      display.value = "Error";
+function addToInput(value) {
+    if (currentInput === '0' && !['+', '-', '/', '*', '(', ')'].includes(value)) {
+        currentInput = value;
+    } else {
+        currentInput += value;
     }
-  };
+    updateDisplay();
+}
 
-  // Numbers
-  for (let i = 0; i <= 9; i++) {
-    document.getElementById(i.toString()).onclick = () => append(i);
-  }
+function clearAll() {
+    currentInput = '0';
+    updateDisplay();
+}
 
-  // Operators
-  document.getElementById("plus").onclick = () => append("+");
-  document.getElementById("-").onclick = () => append("-");
-  document.getElementById("*").onclick = () => append("*");
-  document.getElementById("divi").onclick = () => append("/");
-  document.getElementById("op").onclick = () => append("(");
-  document.getElementById("cl").onclick = () => append(")");
-  document.getElementById(".").onclick = () => append(".");
+function backspace() {
+    currentInput = currentInput.slice(0, -1) || '0';
+    updateDisplay();
+}
+
+function calculate() {
+    if (!currentInput || currentInput.trim() === '') {
+        currentInput = 'Error';
+        updateDisplay();
+        return;
+    }
+
+    try {
+        const result = eval(currentInput);
+
+        currentInput = isNaN(result)
+            ? 'Error'
+            : !isFinite(result)
+                ? 'Infinity'
+                : result.toString();
+
+    } catch (error) {
+        currentInput = 'Error';
+    }
+
+    updateDisplay();
+}
+
+// Number buttons
+for (let i = 0; i <= 9; i++) {
+    const button = document.getElementById(i.toString());
+    if (button) {
+        button.addEventListener('click', () => addToInput(i.toString()));
+    }
+}
+
+// Operators
+document.getElementById('plus').addEventListener('click', () => addToInput('+'));
+document.getElementById('-').addEventListener('click', () => addToInput('-'));
+document.getElementById('divi').addEventListener('click', () => addToInput('/'));
+document.getElementById('*').addEventListener('click', () => addToInput('*'));
+document.getElementById('op').addEventListener('click', () => addToInput('('));
+document.getElementById('cl').addEventListener('click', () => addToInput(')'));
+
+// Special buttons
+document.getElementById('C').addEventListener('click', clearAll);
+document.getElementById('back').addEventListener('click', backspace);
+document.getElementById('equal').addEventListener('click', calculate);
+
+updateDisplay();
